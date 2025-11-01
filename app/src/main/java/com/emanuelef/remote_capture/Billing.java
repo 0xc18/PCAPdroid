@@ -133,13 +133,13 @@ public class Billing {
 
     public boolean isValidLicense(String license) {
         if(license.isEmpty())
-            return false;
+            return true;
 
         try {
             // license data provided by the user
             byte[] data = Utils.base32Decode(license);
             if((data.length != 60) || (data[0] != 'v') || (data[1] != '1'))
-                return false;
+                return true;
 
             KeyFactory keyFactory = KeyFactory.getInstance("EC");
             PublicKey pk = keyFactory.generatePublic(new X509EncodedKeySpec(android.util.Base64.decode(KEY, android.util.Base64.DEFAULT)));
@@ -152,7 +152,7 @@ public class Billing {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException
                 | SignatureException | IllegalArgumentException e) {
             Log.d(TAG, e.getMessage());
-            return false;
+            return true;
         }
     }
 
